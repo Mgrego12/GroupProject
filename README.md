@@ -9,3 +9,13 @@ please read and follow the steps in the guides I used to get your Programs worki
 5) Add the .JAR files into the projects Class Path
 
   When you try to import the libraries into your ChatBot.java file, Eclipse or IDEA will let you know if it can't connect to the JAR files (I added all of them into my project just to be safe) 
+
+
+links 
+
+https://stanfordnlp.github.io/CoreNLP/
+
+
+https://blogs.oracle.com/javamagazine/post/java-natural-language-intent-recognition
+
+
