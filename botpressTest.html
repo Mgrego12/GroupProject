@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+ 
+</head>
+
+<script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
+
+<body>
+  <h1>Welcome to My Website</h1>
+  
+  <!-- Add the iframe for the Botpress chatbot -->
+  <div id="botpress-frame"></div>
+  <style>
+  /* Set the size of the iframe */
+  #botpress-frame {
+    width: 800px;
+    height: 600px;
+  }
+  
+  /* Customize the chatbot container */
+  .bpw-container {
+    border: 1px solid #9c2323;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Customize the chat input box */
+  .bpw-composer-input {
+    border: none;
+    background-color: #d89e9e;
+    border-radius: 0;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Customize the chat messages */
+  .bpw-message-content {
+    background-color: #79a9c4;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+  }
+</style>
+  <script>
+    window.botpressWebChat.init({
+      composerPlaceholder: "Chat with bot",
+      botConversationDescription: "This chatbot was built surprisingly fast with Botpress",
+      botId: "f3f40a0d-5abf-41e4-abd0-6b5f5a24404d",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v0",
+      messagingUrl: "https://messaging.botpress.cloud",
+      clientId: "f3f40a0d-5abf-41e4-abd0-6b5f5a24404d",
+      useSessionStorage: true,
+      showBotInfoPage: true,
+      pat: "bp_pat_pFChA8oJXqFvPvplWjEALIuvoi2rKhvJNpFH" // Add your PAT key here (my personal PAT key from My Account in Botpress.com // you might need to generate your own and put yours here
+    });
+  </script>
+
+  <p>Other content of your website goes here.</p>
+</body>
