@@ -90,6 +90,8 @@ public class SimpleChatbot extends JFrame {
         responses.put("hello", "Hi, how can I help you?"); 
         responses.put("what is your name?", "I'm a chatbot, I don't have a name.");
         responses.put("how are you?", "I'm a bot, I don't have feelings, but thanks for asking!");
+        responses.put("what's the weather?", "I'm sorry, I can't provide real-time information.");
+        responses.put("tell me a joke", "Why don't we ever tell secrets on a farm? Because the potatoes have eyes, the corn has ears, and the beans stalk.");
         // Add more predefined responses for future reference
     }
 
