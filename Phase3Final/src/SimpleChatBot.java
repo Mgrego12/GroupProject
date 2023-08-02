@@ -2,6 +2,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -35,114 +36,98 @@ public class SimpleChatBot extends JFrame {
 	private CoreNLP analyzeBot; // CoreNLP analyzer for text analysis
 	private final BotProcesses chatBotProcesses; // Add 'final' keyword here
 	private JButton startAnalysisButton;
-	private JButton closeAnalysisButton;
+	private JButton closeAnalysisButton; // fix 
+	private String processResponses; // fix 
 	
 	public SimpleChatBot() {
-		/*
-		 * SimpleChatbot constructor method. Used for creating the GUI for "ChatbotApp"
-		 * initliazes components : textfields, button, areas, event listeners It will
-		 * have 2 separate areas , a chatArea and Analysis area. The sendButton uses
-		 * ActionListener to get User Input and add it to appropiate chat Area.
-		 */
-	    super("ChatbotApp"); // super JFrame title "ChatbotApp"
+		this.chatBotProcesses = new BotProcesses();
 
-        // Initialize the responses map and populate it
-        responses = new HashMap<>();
-        chatBotProcesses = new BotProcesses();
-        chatBotProcesses.populateResponses(responses);
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerLocation(0.5);
 
-        setLayout(new BorderLayout()); // Layout of JFrame to BorderLayout
+		setLayout(new BorderLayout());
 
-        // Setup the chat area
-        chatArea = new JTextArea();
-        chatArea.setBackground(Color.BLACK);
-        chatArea.setForeground(Color.BLUE);
-        chatArea.setEditable(false);
-        add(new JScrollPane(chatArea), BorderLayout.CENTER);
+		chatArea = new JTextArea();
+		chatArea.setBackground(Color.darkGray);
+		chatArea.setForeground(Color.GREEN);
+		chatArea.setEditable(false);
+		JScrollPane chatScrollPane = new JScrollPane(chatArea);
+		splitPane.setLeftComponent(chatScrollPane);
 
-        // Setup the input area
-        Box box = Box.createHorizontalBox();
-        userInput = new JTextField();
-        userInput.setBackground(Color.WHITE);
-        userInput.setForeground(Color.BLACK);
-        userInput.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sendButton.doClick(); // Call the sendButton's click action
-            }
-        });
-        box.add(userInput);
-        sendButton = new JButton("Send");
-        sendButton.setBackground(Color.BLACK);
-        sendButton.setForeground(Color.WHITE);
-        box.add(sendButton);
-        add(box, BorderLayout.SOUTH);
+		analysisArea = new JTextArea();
+		analysisArea.setBackground(Color.GRAY);
+		analysisArea.setForeground(Color.BLACK);
+		analysisArea.setEditable(false);
+		JScrollPane analysisScrollPane = new JScrollPane(analysisArea);
+		splitPane.setRightComponent(analysisScrollPane);
 
-        // Add the action listener to the send button
-        sendButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Get the input from the user
-                String input = userInput.getText().trim();
-                if (!input.isEmpty()) {
-                    // Append the user's message to the chat
-                    chatArea.append("User: " + input + "\n");
-                    // Get the bot's response and append it to the chat
-                    String response = chatBotProcesses.processInput(input.toLowerCase());
+		add(splitPane, BorderLayout.CENTER);
 
-                    // Append the current time
-                    LocalTime timeNow = LocalTime.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    chatArea.append("Bot (" + timeNow.format(formatter) + "): " + response + "\n");
-                    // Clear the input field for the next message
-                    userInput.setText("");
-                }
-            }
-        });
+		Box box = Box.createHorizontalBox();
+		userInput = new JTextField();
+		userInput.setBackground(Color.GRAY);
+		userInput.setForeground(Color.BLACK);
+		userInput.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sendButton.doClick();
+			}
+		});
+		box.add(userInput);
+		sendButton = new JButton("Send");
+		sendButton.setBackground(Color.BLACK);
+		sendButton.setForeground(Color.WHITE);
+		box.add(sendButton);
 
-        // Add the action listener to the "Show Analysis" button
-        startAnalysisButton = new JButton("Show Analysis");
-        startAnalysisButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String input = userInput.getText().trim();
-                if (!input.isEmpty()) {
-                    if (!input.isEmpty()) {
-                        String analysisResult = analyzeBot.analyzeText(input);
+		CoreNLP analyzeBot = new CoreNLP();
+		
+		sendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String input = userInput.getText().trim();
+				if (!input.isEmpty()) {
+					// local variable for time and date
+		            LocalTime currentTime = LocalTime.now();
+		            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		            String formattedTime = currentTime.format(timeFormatter);
 
-                        // Update the analysis area with the analysis result
-                        analysisArea.setText(analysisResult);
-                        }
-                    }
-                }
-            });
+		            // Get the current day and format it to yyyy-MM-dd
+		            LocalDate currentDate = LocalDate.now();
+		            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		            String formattedDate = currentDate.format(dateFormatter);
+					
+					chatArea.append("User: " + input + "\n");
+					String response = chatBotProcesses.processInput(input);
+					String processed = chatBotProcesses.populateResponses(input);
+					chatArea.append("Bot : " + processed + " \n");
+					chatArea.append("Bot: " + response + " \n");
+					userInput.setText("");
+					
+					if (analysisArea.isVisible()) {
+						String analysisResult = analyzeBot.analyzeText(input); // Analyze the user's input only
+						analysisArea.setText(analysisResult); 
+					}
+					chatArea.append("Time: " + formattedTime + " | Date: " + formattedDate + "\n");
+				}
+			}
+		});
+		analysisArea.setVisible(false);
+		startAnalysisButton = new JButton("Show Analysis");
+		startAnalysisButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (analysisArea.isVisible()) {
+					analysisArea.setVisible(false);
+				} else {
+					analysisArea.setVisible(true);
+				}
+			}
+		});
+		box.add(startAnalysisButton);
+		add(box, BorderLayout.SOUTH);
 
-        // Add the action listener to the "Close Analysis" button
-        closeAnalysisButton = new JButton("Close Analysis");
-        closeAnalysisButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Find the JFrame with the title "CoreNLP Analysis" and close it
-                for (Window window : JFrame.getWindows()) { // Change 'Window' to 'JFrame' here
-                    if (window instanceof JFrame && window.getName().equals("CoreNLP Analysis")) {
-                        window.dispose();
-                        break;
-                    }
-                }
-            }
-        });
+		setSize(800, 600); 
+		setDefaultCloseOperation(EXIT_ON_CLOSE); 
+	}
 
-        // Add the buttons to the box and the box to the frame
-        box.add(startAnalysisButton);
-        box.add(closeAnalysisButton);
-
-        setSize(800, 600); // 800x600 size
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // close on exit
-    }
-
-	// The application entry point
 	public static void main(String[] args) {
-		/*
-		 * SimpleChatbot instance will be created, and then called to setVisible(true)
-		 * when User runs the Program . We use invokeLater() from SwingUtilities because
-		 * it is recommended to run Swing GUI operations on the Event Dispatch Thread.
-		 */
 		SwingUtilities.invokeLater(() -> {
 			SimpleChatBot chatbot = new SimpleChatBot();
 			chatbot.setVisible(true);
