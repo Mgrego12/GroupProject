@@ -26,40 +26,41 @@ public class BotProcesses{
         populateResponses(null);
     }
  
-	public void populateResponses(Map<String, String> responses2) {
+	public String populateResponses(String input) {
     	/* populateResponses from Phase 1, we will continue to make this
     	 * more robust for Phase 3 */
-        responses.put("hello", "Hi, how can I help you?"); 
-        responses.put("what is your name?", "I'm a chatbot, I don't have a name.");
-        responses.put("how are you?", "I'm a bot, I don't have feelings, but thanks for asking!");
-        responses.put("what's the weather?", "I'm sorry, I can't provide real-time information.");
-        responses.put("tell me a joke", "Why don't we ever tell secrets on a farm? Because the potatoes have eyes, the corn has ears, and the beans stalk.");
-        // Add more predefined responses for future reference
+		return
+        responses.put("hello", "Hi, how can I help you?")+
+        responses.put("what is your name?", "I'm a chatbot, I don't have a name.")+
+        responses.put("how are you?", "I'm a bot, I don't have feelings, but thanks for asking!")+
+        responses.put("what's the weather?", "I'm sorry, I can't provide real-time information.")+
+        responses.put("tell me a joke", "Why don't we ever tell secrets on a farm? "
+        		+ "Because the potatoes have eyes, the corn has ears, and the beans stalk.");
     }
 
     // Method to process user input and provide appropriate responses
 	public String processInput(String input) {
 	    // Convert input to lowercase once and use it throughout the method
-	    input = input.toLowerCase();
+		   input = input.toLowerCase();
 
-	    // Check for exit commands
-	    if (input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("i'm done")) {
-	        System.exit(0); // Close the application
-	    }
+		    // Check for exit commands
+		    if (input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("i'm done")) {
+		        System.exit(0); // Close the application
+		    }
 
-	    // If user asks for current date
-	    else if (input.equalsIgnoreCase("what is the date today") || input.equalsIgnoreCase("what's the date today")) {
-	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-	        LocalDateTime now = LocalDateTime.now();
-	        return "Today's date is " + dtf.format(now);
-	    }
+		    // If user asks for current date
+		    else if (input.contains("date today")) {  // use contains() instead of equalsIgnoreCase()
+		        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		        LocalDateTime now = LocalDateTime.now();
+		        return "Today's date is " + dtf.format(now);
+		    }
 
-	    // If user asks for current time
-	    else if (input.equalsIgnoreCase("what is the time now") || input.equalsIgnoreCase("what's the time now")) {
-	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-	        LocalDateTime now = LocalDateTime.now();
-	        return "Current time is " + dtf.format(now);
-	    }
+		    // If user asks for current time
+		    else if (input.contains("time now")) {  // use contains() instead of equalsIgnoreCase()
+		        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		        LocalDateTime now = LocalDateTime.now();
+		        return "Current time is " + dtf.format(now);
+		    }
 
 	    // Check if the user wants to perform a mathematical operation
 	    else {
@@ -96,7 +97,9 @@ public class BotProcesses{
 	        }
 	    }
 	    // If no close match, return a default response
-	    return "I'm sorry, I didn't understand that.";
+	    return "I'm sorry, I didn't understand that. "
+	    		+ " Please try some Mathematical Equations, asking 'what time is it "
+	    		+ " or 'what is the day today . or 'quit' : ";
 	}
 
     // Compute the Levenshtein distance (edit distance) between two strings
