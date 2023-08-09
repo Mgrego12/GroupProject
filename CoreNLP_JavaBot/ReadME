@@ -26,4 +26,14 @@ CoreNLP
     - these hold key-value definitions so that when the User types in "pos", "ner", "sentiment"... etc, the values will be returned to them. 
     - This way the user can better understand what each annotator is doing. 
     
+Processes 
+ - This file holds the major processes for analyzing, searching, and providing apporpriate responses to User Input. 
+ - the populateResponse method holds objects that also have a key-value system, when certain "keywords" are found, like
+	"hello", the chatbot will use the value for the appropriate response. 
+ - processInput is similiar but we use conditional if, else-if statements to search for specific String inputs, the user can quit, 
+	ask for the day's date, time, and all the annotators get their responses from the NLP_CORE_DEFINITION class . 
+	There is also a simple math function for adding, subtracting, multiplying , and division. 
+- the editDistance method is used to help with typos and mistakes form user input, which makes the bot response system more
+	durable. 
+
 
