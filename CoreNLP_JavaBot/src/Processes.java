@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import java.util.Map;
 import java.util.HashMap;
 /*
@@ -13,21 +14,22 @@ import java.util.HashMap;
 public class Processes {
 
 	private static Map<String, String> responses;
-	private CoreNLP coreNLP;
+	private static CoreNLP coreNLP;
 	private static CoreNLP.NLP_CORE_DEFINITIONS definition;
 
 // Method to populate the responses map
 
-	public Processes() {
+	Processes(){
 		// Constructor to initialize the responses map with predefined responses.
-		Processes.responses = new HashMap<>();
-		populateResponses(null);
+				Processes.responses = new HashMap<>();
+				populateResponses(null);
+		
 	}
-
 	public void populateResponses(Object object) {
 		/*
-		 * populateResponses from Phase 1, we will continue to make this more robust for
-		 * Phase 3 / Final
+		 * method used for for keyword responses,
+		 * For chat bot interface to give corresponding response based off 
+		 * initial input keywords / phrases
 		 */ 
 		responses.put("hello", "Hi, how can I help you?");
 		responses.put("what is your name?", "I'm a chatbot, I don't have a name.");
@@ -38,7 +40,13 @@ public class Processes {
 	}
 	// Method to process user input and provide appropriate responses
 	public static String processInput(String input) {
-		// Convert input to lowercase once and use it throughout the method
+		/*
+		 * processInput to use conditional if/else statements
+		 * to help the bot recognize specific input from user
+		 * and provide correct Responses  (Time/Date/CoreNLP Annotations,Math)
+		 */
+		
+		// Convert input to lower case once and use it throughout the method
 		input = input.toLowerCase();
 
 		// Check for exit commands
@@ -112,7 +120,7 @@ public class Processes {
 	}
 
 	// Compute the Levenshtein distance (edit distance) between two strings
-	public static int editDistance(String a, String b) {
+	private static int editDistance(String a, String b) {
 		int[][] dp = new int[a.length() + 1][b.length() + 1];
 
 		for (int i = 0; i <= a.length(); i++) {
