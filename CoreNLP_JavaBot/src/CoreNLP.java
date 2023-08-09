@@ -1,6 +1,5 @@
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
-import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
@@ -93,7 +92,6 @@ public class CoreNLP {
     public static class NLP_CORE_DEFINITIONS {
         /**
          * Method to get the definition for the specified key.
-         *
          * @param key The key for which the definition is requested.
          * @return The definition corresponding to the given key, or a default message if not found.
          */
@@ -108,10 +106,10 @@ public class CoreNLP {
             nlpDefinitions.put("word", "Word refers to the individual words in the text.");
             nlpDefinitions.put("sentiment", "Sentiment analysis is the interpretation and classification of emotions within text data using text analysis techniques.");
             nlpDefinitions.put("sent", "Sentiment analysis is the interpretation and classification of emotions within text data using text analysis techniques.");
-            // Add more definitions as needed
         }
         // method to retrieve definition from nlpDefinitions HashMap, takes in Key, returns output, or throws Error. 
         public static String getDefinition(String key) {
+        	// simple GETTER for the nlpDefinitions
             if (nlpDefinitions != null) {
                 return nlpDefinitions.getOrDefault(key.toLowerCase(), "No definition found, Please Try Again.");
             } else {
@@ -120,7 +118,7 @@ public class CoreNLP {
         }
     }
     // Method to extract recognized named entities from the text
-    public static String getNamedEntities(String text) {
+    public String getNamedEntities(String text) {
         Annotation document = new Annotation(text);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(SentencesAnnotation.class);
