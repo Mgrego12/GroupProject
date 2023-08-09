@@ -1,7 +1,29 @@
 This is Group 3 Final Version of the Stanford Core NLP Java ChatBot Program
+August 8, 2023
+UMGC CMSC495-6981
+Group 3 Members:
+	Matt Gregorek
+	Nfamoussa Naite jr. 
+	Bryan Duque
 
-.... finish with Introduction / Descriptions of Classes / GUI functions 
+This project is Used and was Tested with Windows 10 , Eclipse IDE , Java JDK 17
+StanfordCoreNLP external jar libraries
 
-Provide Links to the Libraries 
 
-Hardware Info .... 
+Links
+https://stanfordnlp.github.io/CoreNLP/
+https://www.eclipse.org/
+https://www.oracle.com/java/technologies/downloads/
+
+refer to slideshow for Project Setup if having diffuclties adding CoreNLP .jar files to your Project FilePath
+  Remember to add the English .jar file as well. 
+
+CoreNLP
+  - Focuses on creating CoreNLP pipeline annotators to analyze user input and analyze each Token to determine what type of pipeline property that Token (word) is. 
+  - analyzeText is the method that uses StringBuilder to append the annotator outputs, as well as NamedEntities (ner) outputs. 
+  - we have also added a sentiment evaluator using CoreNLP sentiment annotation class to determine user input sentiment. 
+  NLP_CORE_DEFINITIONS
+    - these hold key-value definitions so that when the User types in "pos", "ner", "sentiment"... etc, the values will be returned to them. 
+    - This way the user can better understand what each annotator is doing. 
+    
+
